@@ -1,0 +1,31 @@
+img {
+	height: 350px; 
+	width: auto;
+	-webkit-transition: height .5s;
+}
+
+img:hover {
+	height: 400px; 
+	width: auto; 
+	-webkit-transition: height .5s;
+}
+
+.movie-feed {
+	display: flex;
+	flex-direction: row;
+	justify-content: space-between;
+	width: 100%;
+	height: 410px;
+	overflow-x: auto;
+	margin-bottom: 25px;
+}
+
+.movie {
+	cursor: pointer;
+	margin-right: 10px;
+}
+
+.scroll-btn {
+	color: white;
+	margin-top: 175px;
+}

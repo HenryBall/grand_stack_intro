@@ -1,0 +1,105 @@
+:root {
+  --black: #202b3d;
+  --cream: #EAE7DC;
+  --brown: #D8C3A5;
+  --grey: #efefef;
+  --peach: #E98074;
+  --crimson: #ed4e42;
+}
+
+body {
+	font-family: 'Nunito', sans-serif;
+	background-color: var(--black);
+}
+
+input {
+	border: none;
+}
+
+input:focus,
+select:focus,
+textarea:focus,
+button:focus {
+    outline: none;
+}
+
+::-webkit-scrollbar {
+	display: none;
+}
+
+.app {
+	display: flex;
+	flex-direction: column;
+}
+
+.menu-active {
+	width: 300px;
+	height: 100%;
+	position: fixed;
+	z-index: 2;
+	background-color: var(--crimson);
+	transition: width 0.2s;
+	overflow-x: hidden;
+}
+
+.menu-hidden {
+	width: 0px;
+	height: 0px;
+	position: fixed;
+	visibility: hidden;
+	z-index: 2;
+}
+
+.flex-row {
+	display: flex;
+	flex-direction: row;
+	padding: 25px 50px 50px 50px;
+	margin-top: 75px;
+}
+
+.movies {
+	display: flex;
+	flex-direction: column;
+	width: 100%;
+	z-index: 0;
+}
+
+.catagory-text {
+	font-size: 25px;
+	margin-bottom: 10px;
+	color: white;
+	font-weight: lighter;
+}
+
+.carousel {
+	display: flex;
+	flex-direction: row;
+	cursor: pointer;
+}
+
+@media only screen and (max-width: 800px) {
+	.menu-active {
+		width: 100%;
+		height: 475px;
+		margin-bottom: 25px;
+		transition: height 0.3s;
+	}
+
+	.menu-hidden {
+		height: 0px;
+		width: 0px;
+		visibility: hidden;
+	}
+
+	.flex-row {
+		display: flex;
+		flex-direction: column;
+		margin-top: 100px;
+	}
+
+	.movies {
+		display: flex;
+		flex-direction: column;
+		width: 100%;
+	}
+}
