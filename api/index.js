@@ -1,7 +1,11 @@
 const neo4j = require('neo4j-driver').v1;
 const { makeAugmentedSchema } = require('neo4j-graphql-js');
 const { typeDefs, resolvers } = require('./graphql-schema');
-const { ApolloServer, gql, makeExecutableSchema } = require('apollo-server');
+const { makeExecutableSchema } = require('apollo-server');
+const { ApolloServer } = require('apollo-server-express');
+const express = require('express');
+const bodyParser = require('body-parser');
+const path = require("path");
 
 const schema = makeAugmentedSchema({
   typeDefs,
@@ -13,12 +17,19 @@ const driver = neo4j.driver(
   neo4j.auth.basic('neo4j', 'deadmau5!')
 );
 
+const app = express();
+app.use(bodyParser.json());
+app.use(express.static(path.join(__dirname, "../ui/build")))
 
 const server = new ApolloServer({ 
-  schema,
-  context: { driver }
+  schema: schema,
+  context: ({ req }) => {
+    return {
+      driver,
+      req
+    };
+  }
 });
 
-server.listen().then(({ url }) => {
-  console.log(`🚀  Server ready at ${url}`);
-});
+server.applyMiddleware({ app, path: "/" });
+app.listen(4000, "0.0.0.0");
