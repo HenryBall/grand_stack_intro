@@ -8,7 +8,7 @@ import Movies from './components/movies';
 import './App.css';
 
 const api = axios.create({
-  baseURL: 'http://localhost:4000/',
+  baseURL: 'http://13.57.31.93:80/',
   headers: {},
 });
 
