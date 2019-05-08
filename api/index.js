@@ -13,7 +13,8 @@ const schema = makeAugmentedSchema({
 });
 
 const driver = neo4j.driver(
-  'bolt://54.183.239.18:7687', 
+  'bolt://54.183.239.18:7687',
+  //'bolt://localhost:7687',
   neo4j.auth.basic('neo4j', 'deadmau5!')
 );
 

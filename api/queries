@@ -54,6 +54,23 @@ ORDER BY (numGenresInCommon + numPeopleInCommon) DESC
 RETURN reco
 LIMIT 10
 
+MATCH (u:User {id: '5'})-[r:RATED]->(m1)
+WITH u, m1, r ORDER BY r.rating DESC LIMIT 5
+MATCH (m1)-[:HAS_GENRE]->(g:Genre),
+	(m1)<-[:ACTED_IN|:DIRECTED]-(p:Person),
+	(m1)-[:HAS_RATING]->(ra:Rating),
+	(m2)-[:HAS_GENRE]->(g),
+	(m2)<-[:ACTED_IN|:DIRECTED]-(p),
+    (m2)-[:HAS_RATING]->(ra)
+WHERE NOT (u)-[:RATED]->(m2)
+WITH m2 AS reco, 
+	COUNT(DISTINCT g) AS numGenresInCommon,
+	COUNT(DISTINCT p) AS numPeopleInCommon,
+    COUNT(DISTINCT ra) AS ratingsInCommon
+ORDER BY (numGenresInCommon + numPeopleInCommon + ratingsInCommon) DESC
+RETURN reco
+LIMIT 10
+
 /* get recent movies  */
 MATCH (m:Movie)-[:FROM_YEAR]-(year) WHERE year.year STARTS WITH "2" RETURN m ORDER BY year.year DESC LIMIT 10
 

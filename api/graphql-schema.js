@@ -14,8 +14,8 @@ const typeDefs = `
     metacriticRating: String
     rottenTomatoesRating: String
     actors: [Person] @relation(name: "ACTED_IN", direction: "IN")
-    popular: [Movie] @cypher(statement: "MATCH (m:Movie) WHERE EXISTS(m.imdbRating) WITH m AS pop, m.imdbRating AS rating ORDER BY rating DESC RETURN pop LIMIT 10")
-    recent: [Movie] @cypher(statement: "MATCH (m:Movie)-[:FROM_YEAR]-(year) WHERE year.year STARTS WITH '2' RETURN m ORDER BY year.year DESC LIMIT 10")
+    recent: [Movie] @cypher(statement: "MATCH (m:Movie)-[:FROM_YEAR]-(year) WHERE year.year STARTS WITH '2' RETURN m ORDER BY year.year DESC LIMIT 15")
+    popular: [Movie] @cypher(statement: "MATCH (m:Movie) WHERE EXISTS(m.imdbRating) WITH m AS pop, m.imdbRating AS rating ORDER BY rating DESC RETURN pop LIMIT 15")
     similar: [Movie] @cypher(statement:
       """
         MATCH (m1:Movie {title: this.title}),
@@ -65,7 +65,7 @@ const typeDefs = `
           ) AS titleInCommon
         ORDER BY (genresInCommon + peopleInCommon + ratingsInCommon + titleInCommon - (yearDiff*0.25)) DESC
         RETURN reco
-        LIMIT 10
+        LIMIT 15
       """)
   }
 
@@ -92,16 +92,21 @@ const typeDefs = `
     recomended: [Movie] @cypher(statement: 
       """
         MATCH (u:User {id: this.id})-[r:RATED]->(m1)
-        WHERE toFloat(r.rating) = 5.0
-        MATCH (g:Genre)<-[:HAS_GENRE]-(m1)<-[:ACTED_IN|:DIRECTED]-(p:Person)
-        MATCH (g)<-[:HAS_GENRE]-(m2)<-[:ACTED_IN|:DIRECTED]-(p)
+        WITH u, m1, r ORDER BY r.rating DESC LIMIT 5
+        MATCH (m1)-[:HAS_GENRE]->(g:Genre),
+          (m1)<-[:ACTED_IN|:DIRECTED]-(p:Person),
+          (m1)-[:HAS_RATING]->(ra:Rating),
+          (m2)-[:HAS_GENRE]->(g),
+          (m2)<-[:ACTED_IN|:DIRECTED]-(p),
+          (m2)-[:HAS_RATING]->(ra)
         WHERE NOT (u)-[:RATED]->(m2)
         WITH m2 AS reco, 
           COUNT(DISTINCT g) AS numGenresInCommon,
-          COUNT(DISTINCT p) AS numPeopleInCommon
-        ORDER BY (numGenresInCommon + numPeopleInCommon) DESC
+          COUNT(DISTINCT p) AS numPeopleInCommon,
+          COUNT(DISTINCT ra) AS ratingsInCommon
+        ORDER BY (numGenresInCommon + numPeopleInCommon + ratingsInCommon) DESC
         RETURN reco
-        LIMIT 10
+        LIMIT 15
       """)
   }
 

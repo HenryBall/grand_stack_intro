@@ -38,7 +38,7 @@ button:focus {
 	position: fixed;
 	z-index: 2;
 	background-color: var(--crimson);
-	transition: width 0.2s;
+	transition: width 0.3s;
 	overflow-x: hidden;
 }
 

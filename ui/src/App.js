@@ -9,6 +9,7 @@ import './App.css';
 
 const api = axios.create({
   baseURL: 'http://13.57.31.93:80/',
+  //baseURL: 'http://localhost:4000',
   headers: {},
 });
 
@@ -100,6 +101,7 @@ class App extends Component {
         userId: '',
         favMovie: '',
         menuActive: false,
+        loading: 'GET RECOMENDATIONS',
     };
   }
 
@@ -109,8 +111,13 @@ class App extends Component {
   }
 
   searchHandler() {
-    this.getSimilarMovies();
-    this.getMoviesForUser();
+    this.setState({
+      loading: 'LOADING...'
+    }, async () => {
+      await this.getSimilarMovies();
+      await this.getMoviesForUser();
+      this.setState({loading: 'GET RECOMENDATIONS'});
+    });
   }
 
   idInputHandler(event) {
@@ -164,6 +171,7 @@ class App extends Component {
             favInputHandler={this.favInputHandler.bind(this)}
             toggleHandler={this.toggleHandler.bind(this)}
             searchHandler={this.searchHandler.bind(this)}
+            searchBtnContent={this.state.loading}
           />
         </div>
         <div className='flex-row'>

@@ -49,6 +49,28 @@ input {
 	width: 25px;
 }
 
+.inline-icon {
+	display: flex;
+	flex-direction: row;
+	align-content: center;
+}
+
+.me-icon {
+	cursor: pointer;
+	background-image: url('../assets/me.png');
+	height: 20px;
+	width: 14px;
+	margin-right: 10px;
+}
+
+.heart-icon {
+	cursor: pointer;
+	background-image: url('../assets/heart.png');
+	height: 18px;
+	width: 20px;
+	margin-right: 10px;
+}
+
 .search-btn {
 	display: flex;
 	justify-content: center;
