@@ -168,9 +168,9 @@ class App extends Component {
         </div>
         <div className='flex-row'>
           <div className='movies'>
-            <div className='catagory-text'>Popular Movies</div>
+            <div className='catagory-text'>{this.state.popMovies.length === 0 ? '' : 'Popular Movies'}</div>
             <Movies movies={this.state.popMovies}/>
-            <div className='catagory-text'>Recent Movies</div>
+            <div className='catagory-text'>{this.state.recentMovies.length === 0 ? '' : 'Recent Movies'}</div>
             <Movies movies={this.state.recentMovies}/>
             <div className='catagory-text'>{this.state.simMovies.length === 0 ? '' : 'Beacuse You Watched ' + this.state.favMovie}</div>
             <Movies movies={this.state.simMovies}/>
