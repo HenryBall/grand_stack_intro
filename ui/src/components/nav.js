@@ -7,7 +7,7 @@ class Header extends Component {
     return (
       <div className='nav-bar'>
       	<div onClick={() => this.props.toggleHandler()} className='open-menu'></div>
-        <div className='nav-text'>RECOMENDATIONS</div>
+        <div className='nav-text'>RECOMMENDATIONS</div>
       </div>
     );
   }
